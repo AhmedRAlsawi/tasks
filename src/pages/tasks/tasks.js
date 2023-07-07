@@ -26,10 +26,17 @@ export default function Task() {
 
   /**
     * Adding new Row
+    * @param {object} e new row created with its data
     * @returns {Array} temp array which was updated by the new object added
     */
-  const newRow = () => {
-    let temp = [...data]
+  const newRow = (e) => {
+    let temp = []
+    if (data) {
+      temp = [...data]
+    }
+    else {
+      temp.push(e.data)
+    }
     setData(temp)
   }
 
@@ -52,7 +59,11 @@ export default function Task() {
   * @returns {Array} pre after removing the clicked row by it's ID
   */
   const deleteSingleRow = (e) => {
-    setData(prev => prev.filter(ele => ele.ID !== e.data.ID))
+    setData(prev => {
+      let newAfterDeleting = prev.filter(ele => ele.ID !== e.data.ID)
+      if (newAfterDeleting.length === 0) localStorage.removeItem("products")
+      return newAfterDeleting
+    })
   }
 
 
